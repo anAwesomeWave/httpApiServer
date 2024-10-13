@@ -5,6 +5,8 @@ import (
 	"log/slog"
 	"os"
 	"urlShortener/internal/config"
+	"urlShortener/internal/lib/logger/slg"
+	"urlShortener/internal/storage/sqlite"
 )
 
 const (
@@ -23,6 +25,42 @@ func main() {
 	log.Info("Logger created.", slog.String("env", cfg.Env))
 	log.Debug("Starting url-shortener")
 	// storage - sqlite
+	storage, err := sqlite.New(cfg.StoragePath)
+	if err != nil {
+		log.Error("Failed to init storage", slg.Err(err))
+		os.Exit(1)
+	}
+	_ = storage
+	//id, err := storage.SaveURL("https://www.google.com/", "myAlias")
+	//if err != nil {
+	//	log.Error("Failed to insert", slg.Err(err))
+	//	os.Exit(1)
+	//}
+	//log.Info("Saved url with id: ", slog.String("id", strconv.FormatInt(id, 10)))
+	//id, err = storage.SaveURL("https://www.google.com/", "myNewAlias")
+	//if err != nil {
+	//	log.Error("Failed to insert", slg.Err(err))
+	//	os.Exit(1)
+	//}
+	//log.Info("Saved url with id: ", id)
+	//id, err = storage.SaveURL("https://www.google.com/", "myAlias")
+	//if err != nil {
+	//	log.Error("Failed to insert", slg.Err(err))
+	//	os.Exit(1)
+	//}
+	//log.Info("Saved url with id: ", id)
+	//url, err := storage.GetURL("myAlias")
+	//if err != nil {
+	//	log.Error("Failed to get url by alias", slg.Err(err))
+	//	os.Exit(1)
+	//}
+	//log.Info("Url name from alias", slog.String("url", url))
+	//id, err = storage.DeleteURL("myAliass")
+	//if err != nil {
+	//	log.Error("Failed to get url by alias", slg.Err(err))
+	//	os.Exit(1)
+	//}
+	//log.Info("DELETED", slog.String("id", strconv.FormatInt(id, 10)))
 
 	// router - chi, render
 }
